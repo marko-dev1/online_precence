@@ -1,0 +1,807 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Design Requirements Form</title>
+    <link rel="stylesheet" href="contact.css">
+    <style>
+         :root {
+            --primary: #4361ee;
+            --primary-dark: #3a56d4;
+            --secondary: #f72585;
+            --dark: #14213d;
+            --light: #f8f9fa;
+            --gray: #6c757d;
+            --light-gray: #e9ecef;
+            --white: #ffffff;
+            --border-radius: 8px;
+            --shadow-sm: 0 1px 3px rgba(0,0,0,0.12);
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 0;
+            margin: 0;
+        }
+
+        .form-container {
+            max-width: 800px;
+            margin: 40px auto;
+            padding: 30px;
+            background: var(--white);
+            border-radius: var(--border-radius);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            color: var(--gray);
+        }
+
+        .form-progress {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .form-progress::before {
+            content: '';
+            position: absolute;
+            top: 15px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--light-gray);
+            z-index: 1;
+        }
+
+        .progress-step {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            width: 100%;
+        }
+
+        .progress-step.active .step-number {
+            background: var(--primary);
+            color: var(--white);
+            border-color: var(--primary);
+        }
+
+        .progress-step.completed .step-number {
+            background: var(--secondary);
+            color: var(--white);
+            border-color: var(--secondary);
+        }
+
+        .step-number {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: var(--white);
+            border: 2px solid var(--light-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 5px;
+            font-weight: bold;
+            transition: var(--transition);
+        }
+
+        .step-label {
+            font-size: 12px;
+            color: var(--gray);
+        }
+
+        .form-step {
+            display: none;
+        }
+
+        .form-step.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+
+        .form-group label.required::after {
+            content: ' *';
+            color: var(--secondary);
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid var(--light-gray);
+            border-radius: var(--border-radius);
+            font-size: 16px;
+            transition: var(--transition);
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+        }
+
+        textarea.form-control {
+            min-height: 120px;
+            resize: vertical;
+        }
+
+        .form-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: var(--border-radius);
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            border: none;
+        }
+
+         .cta-button {
+            background-color: var(--primary);
+            color: var(--white);
+            padding: 12px 24px;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+            border: 2px solid var(--primary);
+            box-shadow: var(--shadow-sm);
+        }
+
+    .cta-button :hover {
+            background-color: var(--gray);
+            color: var(--white);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gray);
+            color: var(--gray);
+        }
+
+        .btn-outline:hover {
+            border-color: var(--primary);
+            color: var(--primary);
+        }
+
+        .checkbox-group, .radio-group {
+            margin-bottom: 15px;
+        }
+
+        .checkbox-item, .radio-item {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .checkbox-item input, .radio-item input {
+            margin-right: 10px;
+        }
+
+        .file-upload {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 30px;
+            border: 2px dashed var(--light-gray);
+            border-radius: var(--border-radius);
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .file-upload:hover {
+            border-color: var(--primary);
+        }
+
+        .file-upload input {
+            display: none;
+        }
+
+        .file-upload-icon {
+            font-size: 40px;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .form-note {
+            font-size: 14px;
+            color: var(--gray);
+            margin-top: 5px;
+        }
+
+        .thank-you-message {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .thank-you-message h2 {
+            color: var(--primary);
+            margin-bottom: 20px;
+        }
+
+        .thank-you-message p {
+            margin-bottom: 30px;
+        }
+
+        .success-icon {
+            font-size: 60px;
+            color: var(--secondary);
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 20px;
+                margin: 20px;
+            }
+
+            .form-actions {
+                flex-direction: column-reverse;
+                gap: 10px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <h1>Web Design Requirements</h1>
+            <p>Please fill out this form to help us understand your website needs</p>
+        </div>
+
+        <div class="form-progress">
+            <div class="progress-step active" id="step1-indicator">
+                <div class="step-number">1</div>
+                <div class="step-label">Basic Info</div>
+            </div>
+            <div class="progress-step" id="step2-indicator">
+                <div class="step-number">2</div>
+                <div class="step-label">Design</div>
+            </div>
+            <div class="progress-step" id="step3-indicator">
+                <div class="step-number">3</div>
+                <div class="step-label">Content</div>
+            </div>
+            <div class="progress-step" id="step4-indicator">
+                <div class="step-number">4</div>
+                <div class="step-label">Review</div>
+            </div>
+        </div>
+
+        <form id="webDesignForm">
+            <!-- Step 1: Basic Information -->
+            <div class="form-step active" id="step1">
+                <div class="form-group">
+                    <label for="client-name" class="required">Your Name</label>
+                    <input type="text" id="client-name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="business-name" class="required">Business/Organization Name</label>
+                    <input type="text" id="business-name" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="email" class="required">Email Address</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="website-purpose" class="required">What is the main purpose of your website?</label>
+                    <select id="website-purpose" class="form-control" required>
+                        <option value="">Select an option</option>
+                        <option value="showcase">Showcase my business/services</option>
+                        <option value="ecommerce">Sell products online</option>
+                        <option value="lead-generation">Generate leads</option>
+                        <option value="information">Provide information</option>
+                        <option value="blog">Publish blog/content</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-actions">
+                     <a href="index.html" class="cta-button white slide-up" style="animation-delay: 0.2s;">Home</a>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(1, 2)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 2: Design Preferences -->
+            <div class="form-step" id="step2">
+                <div class="form-group">
+                    <label class="required">Do you have an existing website?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="existing-yes" name="existing-website" value="yes" required>
+                            <label for="existing-yes">Yes</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="existing-no" name="existing-website" value="no">
+                            <label for="existing-no">No</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="existing-website-url-group" style="display: none;">
+                    <label for="website-url">Current Website URL</label>
+                    <input type="url" id="website-url" class="form-control" placeholder="https://">
+                </div>
+
+                <div class="form-group">
+                    <label for="design-style" class="required">Preferred design style</label>
+                    <select id="design-style" class="form-control" required>
+                        <option value="">Select a style</option>
+                        <option value="modern">Modern & Minimal</option>
+                        <option value="corporate">Corporate/Professional</option>
+                        <option value="creative">Creative/Artistic</option>
+                        <option value="bold">Bold & Colorful</option>
+                        <option value="elegant">Elegant/Luxury</option>
+                        <option value="friendly">Friendly/Approachable</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="color-scheme">Do you have specific colors in mind?</label>
+                    <input type="text" id="color-scheme" class="form-control" placeholder="e.g., Blue and white, or provide hex codes">
+                </div>
+
+                <div class="form-group">
+                    <label for="reference-sites">Websites you like (provide URLs)</label>
+                    <textarea id="reference-sites" class="form-control" placeholder="List 2-3 websites you like with a brief explanation of what you like about them"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">Number of pages needed</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="pages-1-5" name="pages" value="1-5" required>
+                            <label for="pages-1-5">1-5 pages</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="pages-6-10" name="pages" value="6-10">
+                            <label for="pages-6-10">6-10 pages</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="pages-10+" name="pages" value="10+">
+                            <label for="pages-10+">10+ pages</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="pages-unsure" name="pages" value="unsure">
+                            <label for="pages-unsure">Not sure</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="prevStep(2, 1)">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(2, 3)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 3: Content & Features -->
+            <div class="form-step" id="step3">
+                <div class="form-group">
+                    <label class="required">What features do you need?</label>
+                    <div class="checkbox-group">
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-contact" name="features" value="contact-form">
+                            <label for="feature-contact">Contact form</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-blog" name="features" value="blog">
+                            <label for="feature-blog">Blog/news section</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-gallery" name="features" value="photo-gallery">
+                            <label for="feature-gallery">Photo gallery</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-ecommerce" name="features" value="ecommerce">
+                            <label for="feature-ecommerce">E-commerce/shopping cart</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-booking" name="features" value="booking">
+                            <label for="feature-booking">Booking/appointment system</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-social" name="features" value="social-media">
+                            <label for="feature-social">Social media integration</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-membership" name="features" value="membership">
+                            <label for="feature-membership">Membership/login area</label>
+                        </div>
+                        <div class="checkbox-item">
+                            <input type="checkbox" id="feature-other" name="features" value="other">
+                            <label for="feature-other">Other (please specify below)</label>
+                        </div>
+                    </div>
+                    <textarea id="other-features" class="form-control" placeholder="Please describe any other features you need" style="margin-top: 10px; display: none;"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="content-prepared" class="required">Do you have content ready?</label>
+                    <select id="content-prepared" class="form-control" required>
+                        <option value="">Select an option</option>
+                        <option value="yes-all">Yes, all content is ready</option>
+                        <option value="yes-some">Yes, some content is ready</option>
+                        <option value="no">No, I need help creating content</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="logo">Do you have a logo?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="logo-yes" name="logo" value="yes">
+                            <label for="logo-yes">Yes (please upload below)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="logo-no" name="logo" value="no">
+                            <label for="logo-no">No, I need a logo designed</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="logo-upload-group" style="display: none;">
+                    <label>Upload your logo</label>
+                    <div class="file-upload" id="logo-upload">
+                        <div class="file-upload-icon">📁</div>
+                        <p>Click to upload or drag and drop</p>
+                        <p class="form-note">PNG, JPG, or SVG (Max 5MB)</p>
+                        <input type="file" id="logo-file" accept=".png,.jpg,.jpeg,.svg">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="images">Do you have images for the website?</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="images-yes" name="images" value="yes">
+                            <label for="images-yes">Yes (please upload below)</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="images name="images" value="no">
+                            <label for="images-no">No, I need stock images selected</label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group" id="images-upload-group" style="display: none;">
+                    <label>Upload your images</label>
+                    <div class="file-upload" id="images-upload">
+                        <div class="file-upload-icon">🖼️</div>
+                        <p>Click to upload or drag and drop</p>
+                        <p class="form-note">JPG or PNG (Max 10MB total)</p>
+                        <input type="file" id="image-files" accept=".png,.jpg,.jpeg" multiple>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="target-audience">Who is your target audience?</label>
+                    <textarea id="target-audience" class="form-control" placeholder="Describe your ideal customers/clients"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="competitors">Who are your main competitors?</label>
+                    <textarea id="competitors" class="form-control" placeholder="List competitors or similar businesses"></textarea>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="prevStep(3, 2)">Previous</button>
+                    <button type="button" class="btn btn-primary" onclick="nextStep(3, 4)">Next</button>
+                </div>
+            </div>
+
+            <!-- Step 4: Review & Submit -->
+            <div class="form-step" id="step4">
+                <div class="form-group">
+                    <label for="timeline" class="required">What is your timeline for this project?</label>
+                    <select id="timeline" class="form-control" required>
+                        <option value="">Select an option</option>
+                        <option value="urgent">ASAP (within 2 weeks)</option>
+                        <option value="1month">1 month</option>
+                        <option value="2months">2-3 months</option>
+                        <option value="flexible">Flexible/no deadline</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="budget" class="required">What is your budget range?</label>
+                    <select id="budget" class="form-control" required>
+                        <option value="">Select an option</option>
+                        <option value="500-1000">ksh500 - ksh1,000</option>
+                        <option value="1000-2500">ksh1,000 - ksh2,500</option>
+                        <option value="2500-5000">ksh2,500 - ksh5,000</option>
+                        <option value="5000+">ksh5,000+</option>
+                        <option value="unsure">Not sure</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="additional-info">Any additional information or special requirements?</label>
+                    <textarea id="additional-info" class="form-control" placeholder="Please share anything else we should know about your project"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label class="required">How did you hear about us?</label>
+                    <select id="referral-source" class="form-control" required>
+                        <option value="">Select an option</option>
+                        <option value="search">Search engine (Google, etc.)</option>
+                        <option value="social">Social media</option>
+                        <option value="referral">Friend/colleague referral</option>
+                        <option value="advertisement">Advertisement</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <div class="checkbox-item">
+                        <input type="checkbox" id="agree-terms" name="agree-terms" required>
+                        <label for="agree-terms" class="required">I agree to the terms and conditions</label>
+                    </div>
+                </div>
+
+                <div class="form-actions">
+                    <button type="button" class="btn btn-outline" onclick="prevStep(4, 3)">Previous</button>
+                    <button type="submit" class="btn btn-primary">Submit Requirements</button>
+                </div>
+            </div>
+
+            <!-- Thank You Message (hidden by default) -->
+            <div class="thank-you-message" id="thank-you" style="display: none;">
+                <div class="success-icon">✓</div>
+                <h2>Thank You!</h2>
+                <p>We've received your web design requirements. Our team will review your information and contact you within 24 hours to discuss next steps.</p>
+                <p>In the meantime, feel free to contact us at <strong>hello@webpresence.com</strong> if you have any questions.</p>
+                <button type="button" class="btn btn-primary" onclick="resetForm()">Start New Form</button>
+                <button type="button" class="btn btn-primary" ><a href="/vitronics/public/index.html" style="text-decoration: none; color: white;">Browse popular</a></button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        // Form navigation
+        function nextStep(current, next) {
+            // Validate current step before proceeding
+            if (validateStep(current)) {
+                document.getElementById(`step${current}`).classList.remove('active');
+                document.getElementById(`step${next}`).classList.add('active');
+                
+                // Update progress indicators
+                document.getElementById(`step${current}-indicator`).classList.remove('active');
+                document.getElementById(`step${current}-indicator`).classList.add('completed');
+                document.getElementById(`step${next}-indicator`).classList.add('active');
+                
+                // Scroll to top of form
+                document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+            }
+        }
+
+        function prevStep(current, prev) {
+            document.getElementById(`step${current}`).classList.remove('active');
+            document.getElementById(`step${prev}`).classList.add('active');
+            
+            // Update progress indicators
+            document.getElementById(`step${current}-indicator`).classList.remove('active');
+            document.getElementById(`step${prev}-indicator`).classList.add('active');
+            
+            // Scroll to top of form
+            document.querySelector('.form-container').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Form validation
+        function validateStep(step) {
+            let isValid = true;
+            const stepElement = document.getElementById(`step${step}`);
+            
+            // Check all required fields in this step
+            const requiredFields = stepElement.querySelectorAll('[required]');
+            requiredFields.forEach(field => {
+                if (!field.value) {
+                    field.style.borderColor = '#f72585';
+                    isValid = false;
+                    
+                    // Add event to remove error style when user starts typing
+                    field.addEventListener('input', function() {
+                        this.style.borderColor = '#e9ecef';
+                    });
+                }
+            });
+            
+            if (!isValid) {
+                alert('Please fill in all required fields before proceeding.');
+            }
+            
+            return isValid;
+        }
+
+        // Toggle other features textarea
+        document.getElementById('feature-other').addEventListener('change', function() {
+            document.getElementById('other-features').style.display = this.checked ? 'block' : 'none';
+        });
+
+        // Toggle existing website URL field
+        document.querySelectorAll('input[name="existing-website"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('existing-website-url-group').style.display = 
+                    this.value === 'yes' ? 'block' : 'none';
+            });
+        });
+
+        // Toggle logo upload field
+        document.querySelectorAll('input[name="logo"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('logo-upload-group').style.display = 
+                    this.value === 'yes' ? 'block' : 'none';
+            });
+        });
+
+        // Toggle images upload field
+        document.querySelectorAll('input[name="images"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                document.getElementById('images-upload-group').style.display = 
+                    this.value === 'yes' ? 'block' : 'none';
+            });
+        });
+
+        // File upload interactions
+        document.getElementById('logo-upload').addEventListener('click', function() {
+            document.getElementById('logo-file').click();
+        });
+
+        document.getElementById('images-upload').addEventListener('click', function() {
+            document.getElementById('image-files').click();
+        });
+
+        // Drag and drop for file uploads
+        ['logo-upload', 'images-upload'].forEach(id => {
+            const uploadArea = document.getElementById(id);
+            
+            uploadArea.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#4361ee';
+                uploadArea.style.backgroundColor = 'rgba(67, 97, 238, 0.05)';
+            });
+            
+            uploadArea.addEventListener('dragleave', () => {
+                uploadArea.style.borderColor = '#e9ecef';
+                uploadArea.style.backgroundColor = 'transparent';
+            });
+            
+            uploadArea.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadArea.style.borderColor = '#e9ecef';
+                uploadArea.style.backgroundColor = 'transparent';
+                
+                const fileInput = uploadArea.querySelector('input[type="file"]');
+                fileInput.files = e.dataTransfer.files;
+                
+                // Update UI to show file was selected
+                if (e.dataTransfer.files.length > 0) {
+                    uploadArea.querySelector('p').textContent = `${e.dataTransfer.files.length} file(s) selected`;
+                }
+            });
+        });
+
+        // Form submission
+        document.getElementById('webDesignForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Validate the final step
+            if (validateStep(4)) {
+                // Here you would typically send the form data to your server
+                // For demo purposes, we'll just show the thank you message
+                
+                // Hide the form and show thank you message
+                document.querySelectorAll('.form-step').forEach(step => {
+                    step.style.display = 'none';
+                });
+                document.getElementById('thank-you').style.display = 'block';
+                
+                // Scroll to thank you message
+                document.getElementById('thank-you').scrollIntoView({ behavior: 'smooth' });
+                
+                // In a real implementation, you would collect all form data and send it to your backend
+                // const formData = new FormData(this);
+                // fetch('/submit-requirements', { method: 'POST', body: formData })
+                //     .then(response => response.json())
+                //     .then(data => {
+                //         document.getElementById('thank-you').style.display = 'block';
+                //     })
+                //     .catch(error => {
+                //         alert('There was an error submitting your form. Please try again.');
+                //     });
+            }
+        });
+
+        // Reset form (for demo purposes)
+        function resetForm() {
+            document.getElementById('webDesignForm').reset();
+            document.getElementById('thank-you').style.display = 'none';
+            
+            // Reset to first step
+            document.querySelectorAll('.form-step').forEach(step => {
+                step.style.display = 'none';
+            });
+            document.getElementById('step1').style.display = 'block';
+            
+            // Reset progress indicators
+            document.querySelectorAll('.progress-step').forEach(step => {
+                step.classList.remove('active', 'completed');
+            });
+            document.getElementById('step1-indicator').classList.add('active');
+            
+            // Reset any dynamic fields
+            document.getElementById('other-features').style.display = 'none';
+            document.getElementById('existing-website-url-group').style.display = 'none';
+            document.getElementById('logo-upload-group').style.display = 'none';
+            document.getElementById('images-upload-group').style.display = 'none';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
